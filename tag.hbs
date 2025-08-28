@@ -1,22 +1,20 @@
 {{!< default}}
 {{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
 
-<main class="gh-main gh-outer">
+{{!-- Use Magazine header format for tag pages --}}
+{{> "components/header" headerStyle="Magazine"}}
 
-    {{#tag}}
-        <section class="gh-archive{{#if feature_image}} has-image{{/if}}{{#if @custom.show_publication_info_sidebar}} has-sidebar{{/if}} gh-inner">
-            <div class="gh-archive-inner">
-                <header class="gh-archive-wrapper">
-                    <h1 class="gh-article-title is-title">{{name}}</h1>
-                    {{#if description}}
-                        <p class="gh-article-excerpt">{{description}}</p>
-                    {{/if}}
-                </header>
-                {{> "feature-image"}}
-            </div>
-        </section>
-    {{/tag}}
+{{!-- Featured posts for this tag (optional - you can remove this section if you don't want featured posts on tag pages) --}}
+{{#match @custom.header_style "!=" "Highlight"}}
+    {{#get "posts" filter="tag:{{slug}}+featured:true" limit="4" as |featured_posts|}}
+        {{#if featured_posts}}
+            {{> "components/featured" posts=featured_posts limit=4}}
+        {{/if}}
+    {{/get}}
+{{/match}}
 
-    {{> "components/post-list" feed="archive" postFeedStyle=@custom.post_feed_style showTitle=false showSidebar=@custom.show_publication_info_sidebar}}
+{{!-- CTA component (same as homepage) --}}
+{{> "components/cta"}}
 
-</main>
+{{!-- Post list with the exact same formatting as homepage --}}
+{{> "components/post-list" feed="tag" postFeedStyle=@custom.post_feed_style showTitle=true showSidebar=@custom.show_publication_info_sidebar}}
