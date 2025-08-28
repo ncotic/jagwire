@@ -1,0 +1,30 @@
+{{!-- Tag Gallery Component --}}
+<section class="gh-tag-gallery">
+    <div class="gh-tag-gallery-inner">
+        <header class="gh-tag-gallery-header">
+            <h2 class="gh-tag-gallery-title">Browse by Topic</h2>
+            <p class="gh-tag-gallery-description">Explore our content by category</p>
+        </header>
+        
+        <div class="gh-tag-grid">
+            {{#get "tags" limit="all" include="count.posts" filter="visibility:public"}}
+                {{#foreach tags}}
+                    <a href="{{url}}" class="gh-tag-card">
+                        {{#if feature_image}}
+                            <div class="gh-tag-image">
+                                <img src="{{img_url feature_image size="m"}}" alt="{{name}}" />
+                            </div>
+                        {{/if}}
+                        <div class="gh-tag-content">
+                            <h3 class="gh-tag-name">{{name}}</h3>
+                            {{#if description}}
+                                <p class="gh-tag-description">{{description}}</p>
+                            {{/if}}
+                            <span class="gh-tag-count">{{plural count.posts empty='No posts' singular='% post' plural='% posts'}}</span>
+                        </div>
+                    </a>
+                {{/foreach}}
+            {{/get}}
+        </div>
+    </div>
+</section>
